@@ -1,0 +1,218 @@
+{% extends 'base.html' %} {% block content %}
+<div class="content container-fluid">
+  <div class="page-header">
+    <div class="row align-items-center">
+      <div class="col">
+        <h3 class="page-title">Send Staff Notification</h3>
+        <ul class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="{% url 'hod_home' %}">Dashboard</a>
+          </li>
+          <li class="breadcrumb-item active">Send Staff Notification</li>
+        </ul>
+      </div>
+      <div class="col-auto text-right float-right ml-auto">
+        <button
+          type="button"
+          class="btn btn-primary btn-lg"
+          data-toggle="modal"
+          data-target="#modelId"
+        >
+          View All Notification
+        </button>
+      </div>
+    </div>
+  </div>
+  {% include 'includes/messages.html' %}
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card card-table">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table id="table_id" class="table table-hover table-center mb-0">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th class="text-right">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for stu in staffs %}
+                <tr>
+                  <td>{{stu.id}}</td>
+                  <td>
+                    <h2 class="table-avatar">
+                      <a
+                        href="student-details.html"
+                        class="avatar avatar-sm mr-2"
+                        ><img
+                          class="avatar-img rounded-circle"
+                          src="/{{stu.admin.profile_pic}}"
+                          alt="User Image"
+                      /></a>
+                      <a href="student-details.html"
+                        >{{stu.admin.first_name}}&nbsp{{stu.admin.last_name}}</a
+                      >
+                    </h2>
+                  </td>
+                  <td>{{stu.admin.email}}</td>
+                  <td class="text-right">
+                    <button
+                      class="btn btn-success"
+                      data-toggle="modal"
+                      data-target="#sendnotification-{{forloop.counter}}"
+                    >
+                      Send Notification
+                    </button>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Button trigger modal -->
+
+<!-- Modal -->
+{% for i in staffs %}
+<div
+  class="modal fade"
+  id="sendnotification-{{forloop.counter}}"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="modelTitleId"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Send Staff Notification</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <form method="post" action = {% url 'save_staff_notification' %}> {%
+          csrf_token %}
+          <div class="form-group">
+            <input
+              type="text"
+              class="form-control"
+              name="message"
+              id="message"
+              aria-describedby="helpId"
+              placeholder="Message"
+            />
+            <input
+              type="hidden"
+              class="form-control"
+              name="staff_id"
+              id="staff_id"
+              value="{{i.admin.id}}"
+            />
+          </div>
+
+          <button type="submit" class="btn btn-primary">
+            Send Notification To {{i.admin.first_name}}
+          </button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+<div
+  class="modal fade"
+  id="modelId"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="modelTitleId"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">All Notifications</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="card card-table">
+            <div class="card-body">
+              <div class="table-responsive">
+                <table
+                  id="table_id"
+                  class="table table-hover table-center mb-0"
+                >
+                  <thead>
+                    <tr>
+                      <th style="width: 68%">Message</th>
+
+                      <th class="text-right" style="width: 32%">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for i in see_notification %}
+                    <tr>
+                      <td>{{i.message}}</td>
+
+                      <td class="text-right">
+                        {% if i.status == 0 %}
+                        <span class="badge badge-danger">Unread</span>
+                        {% else %}
+                        <span class="badge badge-success">Read</span>
+                        {% endif %}
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+        <button type="button" class="btn btn-primary">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $("#exampleModal").on("show.bs.modal", (event) => {
+    var button = $(event.relatedTarget);
+    var modal = $(this);
+    // Use above variables to manipulate the DOM
+  });
+</script>
+
+{% endblock content %}

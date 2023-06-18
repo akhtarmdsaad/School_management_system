@@ -1,0 +1,128 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="content container-fluid">
+  <div class="page-header">
+    <div class="row align-items-center">
+      <div class="col">
+        <h3 class="page-title">Add Result</h3>
+        <ul class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'staff_home' %}">Dashboard</a></li>
+          <li class="breadcrumb-item active">Add Result</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-body">
+          {% if action is None %}
+          <form action="?action=show_students" method="post">
+            {% csrf_token %} {% include 'includes/messages.html' %}
+            <div class="row">
+              <div class="col-12">
+                <h5 class="form-title"><span>Add Result</span></h5>
+              </div>
+
+              <div class="col-12 col-sm-6">
+                <div class="form-group">
+                  <label>Subject</label>
+                  <select class="form-control" name="subject_id">
+                    <option>Select Subject</option>
+                    {% for i in subjects %}
+                    <option value="{{i.id}}">{{i.name}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <div class="col-12 col-sm-6">
+                <div class="form-group">
+                  <label>Session Year</label>
+                  <select class="form-control" name="session_id">
+                    <option>Select Session Year</option>
+                    {% for i in session_year %}
+                    <option value="{{i.id}}">{{i}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary">
+                  Fetch Student
+                </button>
+              </div>
+            </div>
+          </form>
+          {% else %}
+          <form action="{% url 'staff_save_result' %}" method="post">
+            {% csrf_token %} {% include 'includes/messages.html' %}
+            <div class="row">
+              <div class="col-12">
+                <h5 class="form-title"><span>Add Result</span></h5>
+              </div>
+
+              <div class="col-12 col-sm-6">
+                <div class="form-group">
+                  <label>Subject</label>
+                  <select class="form-control" name="subject_id">
+                    <option value="{{get_subject.id}}">{{get_subject}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-12 col-sm-6">
+                <div class="form-group">
+                  <label>Session Year</label>
+                  <select class="form-control" name="session_id" disabled>
+                    <option value="{{get_session.id}}">{{get_session}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-group">
+                  <label>Student List</label>
+                  <select class="form-control" name="student_id">
+                    <option>Select Student List</option>
+                    {% for i in students %}
+                    <option value="{{i.id}}">{{i}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <div class="col-12 col-sm-6">
+                <div class="form-group">
+                  <label for="assignment_marks">Assignment Marks </label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    name="assignment_marks"
+                    id="assignment_marks"
+                  />
+                </div>
+              </div>
+              <div class="col-12 col-sm-6">
+                <div class="form-group">
+                  <label for="exam_marks">Exam Marks </label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    name="exam_marks"
+                    id="exam_marks"
+                  />
+                </div>
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary">
+                  Add Report
+                </button>
+              </div>
+            </div>
+          </form>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

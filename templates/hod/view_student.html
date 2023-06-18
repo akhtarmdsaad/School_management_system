@@ -1,0 +1,91 @@
+{% extends 'base.html' %} {% block content %}
+<div class="content container-fluid">
+  <div class="page-header">
+    <div class="row align-items-center">
+      <div class="col">
+        <h3 class="page-title">Students</h3>
+        <ul class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="{% url 'hod_home' %}">Dashboard</a>
+          </li>
+          <li class="breadcrumb-item active">Students</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card card-table">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table id="table_id" class="table table-hover table-center mb-0">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Course</th>
+                  <th>Gender</th>
+                  <th>Address</th>
+                  <th>Session Year</th>
+                  <th>Created At</th>
+                  <th>Updated At</th>
+                  <th class="text-right">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for stu in students %}
+                <tr>
+                  <td>{{stu.id}}</td>
+                  <td>
+                    <h2 class="table-avatar">
+                      <a
+                        href="student-details.html"
+                        class="avatar avatar-sm mr-2"
+                        ><img
+                          class="avatar-img rounded-circle"
+                          src="/{{stu.admin.profile_pic}}"
+                          alt="User Image"
+                      /></a>
+                      <a href="student-details.html"
+                        >{{stu.admin.first_name}}&nbsp{{stu.admin.last_name}}</a
+                      >
+                    </h2>
+                  </td>
+                  <td>{{stu.admin.email}}</td>
+                  <td>{{stu.course_id.name}}</td>
+                  <td>{{stu.gender}}</td>
+                  <td>{{stu.address}}</td>
+                  <td>
+                    {{stu.session_year_id.session_start}} to
+                    {{stu.session_year_id.session_end}}
+                  </td>
+                  <td>{{stu.created_at}}</td>
+                  <td>{{stu.updated_at}}</td>
+                  <td class="text-right">
+                    <div class="actions">
+                      <a
+                        href="{% url 'edit_student' stu.id %}"
+                        class="btn btn-sm bg-success-light mr-2"
+                      >
+                        <i class="fas fa-pen"></i>
+                      </a>
+                      <a
+                        href="{% url 'delete_student' stu.admin.id %}"
+                        class="btn btn-sm bg-danger-light"
+                      >
+                        <i class="fas fa-trash"></i>
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
