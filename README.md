@@ -69,6 +69,14 @@ This School Management System provides a user-friendly and efficient platform fo
 5. Send Feedback to HOD
 6. View Notifications
 
+## Screenshots
+![](screenshots/logo.png)
+![](screenshots/pasted_image_0.png)
+![](screenshots/pasted_image_1.png)
+![](screenshots/pasted_image_2.png)
+![](screenshots/pasted_image_3.png)
+![](screenshots/pasted_image_4.png)
+![](screenshots/pasted_image_5.png)
 
 
 **Project Structure**
