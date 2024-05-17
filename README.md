@@ -1,4 +1,7 @@
+![logo](https://github.com/akhtarmdsaad/School_management_system/assets/57033728/d0e85424-42ed-4f77-9979-fc4273a6b7bb)
+
 ## School Management System
+
 
 **A comprehensive web application for managing educational institutions.**
 
